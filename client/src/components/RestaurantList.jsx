@@ -19,7 +19,8 @@ function RestaurantList(props) {
     fetchData();
   }, []);
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (e, id) => {
+    e.stopPropagation(); //stop the propagation of an event
     try {
       const response = await RestaurantsFinder.delete(`/${id}`);
       //to update state after deleting
@@ -29,7 +30,8 @@ function RestaurantList(props) {
     }
   };
 
-  const handleUpdate = (id) => {
+  const handleUpdate = (e, id) => {
+    e.stopPropagation();
     navigate(`/restaurants/${id}/update`);
   };
 
@@ -64,7 +66,7 @@ function RestaurantList(props) {
                   <td>Rating</td>
                   <td>
                     <button
-                      onClick={() => handleUpdate(restaurant.id)}
+                      onClick={(e) => handleUpdate(e, restaurant.id)}
                       className="btn btn-warning"
                     >
                       Update
@@ -72,7 +74,7 @@ function RestaurantList(props) {
                   </td>
                   <td>
                     <button
-                      onClick={() => handleDelete(restaurant.id)}
+                      onClick={(e) => handleDelete(e, restaurant.id)}
                       className="btn btn-danger"
                     >
                       Delete

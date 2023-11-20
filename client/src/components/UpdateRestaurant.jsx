@@ -12,9 +12,9 @@ function UpdateRestaurant(props) {
   const fetchData = async () => {
     try {
       const response = await RestaurantsFinder.get(`/${id}`);
-      setName(response.data.data.name);
-      setLocation(response.data.data.location);
-      setPriceRange(response.data.data.price_range);
+      setName(response.data.data.restaurant.name);
+      setLocation(response.data.data.restaurant.location);
+      setPriceRange(response.data.data.restaurant.price_range);
     } catch (err) {
       console.log(err);
     }
