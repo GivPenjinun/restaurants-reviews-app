@@ -5,12 +5,11 @@ import { useNavigate } from "react-router-dom";
 
 function RestaurantList(props) {
   const { restaurants, setRestaurants } = useContext(RestaurantsContext);
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const fetchData = async () => {
     try {
       const response = await RestaurantsFinder.get("/");
       setRestaurants(response.data.data.restaurants);
-      console.log(response);
     } catch (err) {
       console.log(err);
     }
@@ -34,11 +33,15 @@ function RestaurantList(props) {
     navigate(`/restaurants/${id}/update`);
   };
 
+  const handleSelect = (id) => {
+    navigate(`/restaurants/${id}`);
+  };
+
   return (
     <div className="list-group">
       <table className="table table-hover table-dark table-striped">
         <thead>
-          <tr className="">
+          <tr>
             <th scope="col">Restaurant</th>
             <th scope="col">Location</th>
             <th scope="col">Price Range</th>
@@ -51,7 +54,10 @@ function RestaurantList(props) {
           {restaurants &&
             restaurants.map((restaurant) => {
               return (
-                <tr key={restaurant.id}>
+                <tr
+                  key={restaurant.id}
+                  onClick={() => handleSelect(restaurant.id)}
+                >
                   <td>{restaurant.name}</td>
                   <td>{restaurant.location}</td>
                   <td>{"$".repeat(restaurant.price_range)}</td>
