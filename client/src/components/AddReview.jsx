@@ -1,9 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import RestaurantsFinder from "../apis/RestaurantsFinder";
+import { useParams } from "react-router-dom";
+import { RestaurantsContext } from "../context/RestaurantsContext";
 
 function AddReview() {
+  const { selectedRestaurant, setSelectedRestaurant } =
+    useContext(RestaurantsContext);
+  const { id } = useParams();
   const [name, setName] = useState("");
   const [reviewText, setReviewText] = useState("");
   const [rating, setRating] = useState("Rating");
+
+  const fetchData = async () => {
+    try {
+      const response = await RestaurantsFinder.get(`${id}`);
+      setSelectedRestaurant(response.data.data);
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleSubmitReview = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await RestaurantsFinder.post(`/${id}/addReview`, {
+        name,
+        review: reviewText,
+        rating,
+      });
+      fetchData();
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div className="mb-2">
@@ -54,7 +84,11 @@ function AddReview() {
             }}
           ></textarea>
         </div>
-        <button className="btn btn-primary my-3" type="submit">
+        <button
+          onClick={(e) => handleSubmitReview(e)}
+          className="btn btn-primary my-3"
+          type="submit"
+        >
           Submit
         </button>
       </form>
