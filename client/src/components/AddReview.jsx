@@ -1,12 +1,13 @@
 import React, { useState, useContext } from "react";
 import RestaurantsFinder from "../apis/RestaurantsFinder";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { RestaurantsContext } from "../context/RestaurantsContext";
 
 function AddReview() {
   const { selectedRestaurant, setSelectedRestaurant } =
     useContext(RestaurantsContext);
   const { id } = useParams();
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [reviewText, setReviewText] = useState("");
   const [rating, setRating] = useState("Rating");
@@ -29,7 +30,8 @@ function AddReview() {
         review: reviewText,
         rating,
       });
-      fetchData();
+      //fetchData();
+      navigate("/");
     } catch (err) {
       console.log(err);
     }
