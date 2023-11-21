@@ -26,6 +26,19 @@ function RestaurantDetailPage() {
     fetchData();
   }, []);
 
+  const renderRating = (restaurant) => {
+    return (
+      <>
+        <div className="d-flex col justify-content-center">
+          <StarRating rating={restaurant.average_rating} />
+          <span className="text-warning">
+            {restaurant.count ? `(${restaurant.count})` : "(0)"}
+          </span>
+        </div>
+      </>
+    );
+  };
+
   return (
     <div>
       {selectedRestaurant && (
@@ -33,6 +46,9 @@ function RestaurantDetailPage() {
           <h1 className="text-center display-1">
             {selectedRestaurant.restaurant.name}
           </h1>
+          <div className="text-center">
+            {renderRating(selectedRestaurant.restaurant)}
+          </div>
           <div className="mt-3">
             <Reviews reviews={selectedRestaurant.reviews} />
           </div>
